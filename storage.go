@@ -12,17 +12,13 @@ import (
 type ObjectStorage struct {
 	Client     *obs.ObsClient
 	BucketName string
-	Upload     bool
-	Download   bool
 }
 
 // GetObjectStorageConfig ...
-func NewObjectStorage(endpoint, ak, sk, bucketname string, upload, download, proxy bool) (*ObjectStorage, error) {
+func NewObjectStorage(endpoint, ak, sk, bucketname string, proxy bool) (*ObjectStorage, error) {
 
 	var obsClient *obs.ObsClient
 	var err error
-
-	log.Printf("endpoint:%v\nbucketname:%v\nupload:%v\ndownload:%v\nproxy:%v", endpoint, bucketname, upload, download, proxy)
 
 	if proxy {
 		obsClient, err = obs.New(ak, sk, endpoint, obs.WithProxyUrl("http://proxy.mpba.gov.ar:3128"))
@@ -34,13 +30,13 @@ func NewObjectStorage(endpoint, ak, sk, bucketname string, upload, download, pro
 		panic(err)
 	}
 
-	if !upload || (len(endpoint) == 0 || len(ak) == 0 || len(sk) == 0 || len(bucketname) == 0) {
+	if len(endpoint) == 0 || len(ak) == 0 || len(sk) == 0 || len(bucketname) == 0 {
 		return nil, fmt.Errorf("ObjectStorage config error")
 	} else {
 		log.Printf("ObjectStorage no habilitado")
 	}
 
-	objectStorage := ObjectStorage{obsClient, bucketname, upload, download}
+	objectStorage := ObjectStorage{obsClient, bucketname}
 	return &objectStorage, nil
 }
 
