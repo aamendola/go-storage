@@ -22,7 +22,7 @@ func NewObjectStorage(endpoint, ak, sk, bucketname string, upload, download, pro
 	var obsClient *obs.ObsClient
 	var err error
 
-	log.Printf("**********************\nendpoint:%v\nak:%v\nsk:%v\nbucketname:%b\nupload:%v\ndownload:%v\nproxy:%v", endpoint, ak, sk, bucketname, upload, download, proxy)
+	log.Printf("endpoint:%v\nbucketname:%v\nupload:%v\ndownload:%v\nproxy:%v", endpoint, bucketname, upload, download, proxy)
 
 	if proxy {
 		obsClient, err = obs.New(ak, sk, endpoint, obs.WithProxyUrl("http://proxy.mpba.gov.ar:3128"))
