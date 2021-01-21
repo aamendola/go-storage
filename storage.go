@@ -8,11 +8,6 @@ import (
 	"github.com/aamendola/go-storage/obs"
 )
 
-func init() {
-	log.Printf("#####################################################################\n")
-	log.Printf("#####################################################################\n")
-}
-
 // ObjectStorage is a configuration about Huawei OBS
 type ObjectStorage struct {
 	Client     *obs.ObsClient
@@ -40,7 +35,7 @@ func NewObjectStorage(endpoint, ak, sk, bucketname string, uploadEnabled, downlo
 	if !uploadEnabled || (len(endpoint) == 0 || len(ak) == 0 || len(sk) == 0 || len(bucketname) == 0) {
 		return nil, fmt.Errorf("ObjectStorage config error")
 	} else {
-		fmt.Printf("ObjectStorage no habilitado")
+		log.Printf("ObjectStorage no habilitado")
 	}
 
 	objectStorage := ObjectStorage{obsClient, bucketname, uploadEnabled, downloadEnabled}
@@ -52,7 +47,7 @@ func (os *ObjectStorage) Post(src string, dst string) {
 
 	data, err := ioutil.ReadFile(src)
 	if err != nil {
-		fmt.Printf("Error al leer archivo para generar md5: %s", err)
+		log.Printf("Error al leer archivo para generar md5: %s", err)
 		panic(err)
 	}
 
@@ -66,13 +61,13 @@ func (os *ObjectStorage) Post(src string, dst string) {
 
 	output, err := os.Client.PutFile(putFileInput)
 	if err == nil {
-		fmt.Printf("StatusCode:%d, RequestId:%s\n", output.StatusCode, output.RequestId)
-		fmt.Printf("ETag:%s, StorageClass:%s\n", output.ETag, output.StorageClass)
+		log.Printf("StatusCode:%d, RequestId:%s\n", output.StatusCode, output.RequestId)
+		log.Printf("ETag:%s, StorageClass:%s\n", output.ETag, output.StorageClass)
 	} else {
 		if obsError, ok := err.(obs.ObsError); ok {
-			fmt.Printf("StatusCode:%d , Message:%s\n", output.StatusCode, obsError.Message)
+			log.Printf("StatusCode:%d , Message:%s\n", output.StatusCode, obsError.Message)
 		} else {
-			fmt.Printf("Error:%s", err)
+			log.Printf("Error:%s", err)
 		}
 	}
 
