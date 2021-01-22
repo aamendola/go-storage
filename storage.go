@@ -32,8 +32,6 @@ func NewObjectStorage(endpoint, ak, sk, bucketname string, proxy bool) (*ObjectS
 
 	if len(endpoint) == 0 || len(ak) == 0 || len(sk) == 0 || len(bucketname) == 0 {
 		return nil, fmt.Errorf("ObjectStorage config error")
-	} else {
-		log.Printf("ObjectStorage no habilitado")
 	}
 
 	objectStorage := ObjectStorage{obsClient, bucketname}
