@@ -14,7 +14,7 @@ type ObjectStorage struct {
 }
 
 // MakeObjectStorage ...
-func MakeObjectStorage(endpoint, accessKey, secretAccessKey, bucketname string, proxy bool) ObjectStorage {
+func MakeObjectStorage(endpoint, accessKey, secretAccessKey, bucketname, proxy string) ObjectStorage {
 
 	var obsClient *obs.ObsClient
 	var err error
@@ -23,8 +23,8 @@ func MakeObjectStorage(endpoint, accessKey, secretAccessKey, bucketname string, 
 		panic("ObjectStorage config error")
 	}
 
-	if proxy {
-		obsClient, err = obs.New(accessKey, secretAccessKey, endpoint, obs.WithProxyUrl("http://proxy.mpba.gov.ar:3128"))
+	if proxy != "" {
+		obsClient, err = obs.New(accessKey, secretAccessKey, endpoint, obs.WithProxyUrl(proxy))
 	} else {
 		obsClient, err = obs.New(accessKey, secretAccessKey, endpoint)
 	}
