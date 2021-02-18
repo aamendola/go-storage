@@ -68,7 +68,6 @@ func (os ObjectStorage) Post(filenameSource, filenameDestination string) {
 
 // Get ...
 func (o ObjectStorage) Get(filenameToDownload, filenameToSave string) {
-	log.Printf("===============================================> 1")
 	input := &obs.DownloadFileInput{}
 	input.Bucket = o.bucketName
 	input.Key = filenameToDownload
@@ -76,7 +75,6 @@ func (o ObjectStorage) Get(filenameToDownload, filenameToSave string) {
 	input.EnableCheckpoint = true       // Enable the resumable download mode.
 	input.PartSize = 9 * 1024 * 1024    // Set the part size to 9 MB.
 	input.TaskNum = 5                   // Specify the maximum number of parts that can be concurrently downloaded.
-	log.Printf("===============================================> 2")
 	output, err := o.client.DownloadFile(input)
 	if err == nil {
 		log.Printf("RequestId:%s\n", output.RequestId)
